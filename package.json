@@ -5,8 +5,9 @@
   "type": "module",
   "description": "3D office where real Claude Code agents work in role-based rooms",
   "scripts": {
-    "dev": "vite --config web/vite.config.ts",
-    "build": "tsc -p web/tsconfig.json --noEmit && vite build --config web/vite.config.ts",
+    "dev": "vite --config web/vite.config.ts --configLoader runner",
+    "build": "tsc -p web/tsconfig.json --noEmit && vite build --config web/vite.config.ts --configLoader runner",
+    "test": "node --test server/*.test.mjs",
     "start": "node server/index.mjs"
   },
   "dependencies": {

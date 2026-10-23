@@ -16,8 +16,14 @@ matches their task.
 ```
 npm install
 npm run build      # typecheck + vite build → web/dist (served by the server)
+npm test           # server regression tests
 npm run dev        # vite dev server for UI work (no agents)
 ```
+
+Requires Node.js 22+ and Claude Code installed and signed in (`claude auth status`).
+On Windows PowerShell, use `npm.cmd` if execution policy blocks `npm.ps1`.
+Runtime configuration and access tokens stay in `~/.agent-office`, outside this
+repository. Do not commit that directory or share the token-bearing launch URL.
 
 ## How it works
 

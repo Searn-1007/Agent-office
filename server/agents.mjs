@@ -17,7 +17,7 @@ const REPLAY_LIMIT = 400_000;
 const SCREEN_CHECK_MS = 400;
 /** What Claude Code's approval prompts look like on screen. */
 const APPROVAL_RE =
-  /Do you want to (proceed|make this edit|create|allow|run|overwrite)|Do you trust the files|❯\s*1\.\s*Yes/;
+  /Do you want to (proceed|make this edit|create|allow|run|overwrite)|Do you trust the files|Is this a project you created or one you trust\?|Yes, I trust this folder|❯\s*1\.\s*Yes/;
 
 function launchCommand(sessionId, promptFile, name) {
   const args = ['--session-id', sessionId, '--append-system-prompt-file', promptFile, '-n', name];
@@ -171,7 +171,8 @@ export class AgentManager {
     a.approval = approval;
     if (approval) {
       a.status = 'approval';
-      a.activity = /Do you trust/.test(text) ? 'Cần xác nhận thư mục' : 'Cần bạn duyệt';
+      a.activity = /Do you trust|Is this a project you created or one you trust\?|Yes, I trust this folder/.test(text)
+        ? 'Cần xác nhận thư mục' : 'Cần bạn duyệt';
     } else if (a.status === 'approval') {
       a.status = 'working';
       a.activity = 'Đang làm';

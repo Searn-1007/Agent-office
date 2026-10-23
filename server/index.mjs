@@ -43,17 +43,6 @@ function loadConfig() {
   if (typeof cfg.token !== 'string') cfg.token = crypto.randomUUID();
   if (!Array.isArray(cfg.dirs)) {
     cfg.dirs = [{ name: 'Thư mục chính', path: os.homedir() }];
-    // Pick up the folders already set up for Pixel Agents, if any.
-    try {
-      const pa = JSON.parse(
-        fs.readFileSync(path.join(os.homedir(), '.pixel-agents', 'config.json'), 'utf8'),
-      );
-      for (const d of pa.directories ?? []) {
-        if (d?.path && !cfg.dirs.some((x) => x.path === d.path)) cfg.dirs.push(d);
-      }
-    } catch {
-      // no Pixel Agents config
-    }
   }
   return cfg;
 }
