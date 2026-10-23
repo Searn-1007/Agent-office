@@ -1,264 +1,269 @@
-# Agent Office — Văn phòng AI
+# Agent Office
 
-Văn phòng 3D để làm việc với các agent Claude Code. Mỗi agent có vai trò,
-phòng làm việc và terminal riêng; bạn có thể theo dõi hoạt động ngay trong văn phòng.
+A 3D office for working with Claude Code agents. Each agent has a role, a room,
+and its own terminal. Watch their activity and manage their work from the office.
 
-**Bạn không cần tự tạo shortcut hay tự cài Node.js.** Sau khi tải mã nguồn,
-chạy file khởi động một lần. Chương trình tự chuẩn bị ứng dụng và tạo shortcut
-**Agent Office**. Những lần sau chỉ cần bấm shortcut đó.
+**You do not need to create shortcuts or install Node.js yourself.** Download the
+repository and run the launcher once. It prepares the application and creates
+**Agent Office** shortcuts automatically. After that, open the app from a shortcut.
 
-## Chuẩn bị trước khi chạy
+## Requirements
 
-- Máy Windows hoặc Ubuntu, kiến trúc x64 hoặc ARM64.
-- Kết nối Internet cho lần chạy đầu để tải môi trường và các thư viện cần thiết.
-- Windows: có PowerShell; nên có Microsoft Edge hoặc Google Chrome.
-- Ubuntu: có Python 3; nên có Google Chrome hoặc Chromium.
-- Muốn agent thực hiện công việc: cài Claude Code và đăng nhập tài khoản riêng
-  theo phần [Kết nối Claude Code](#kết-nối-claude-code).
+- Windows or Ubuntu, on x64 or ARM64 hardware.
+- Internet access for the first launch to download the runtime and dependencies.
+- Windows: PowerShell; Microsoft Edge or Google Chrome for a separate app window.
+- Ubuntu: Python 3; Google Chrome or Chromium for a separate app window.
+- To run agents: Claude Code installed and signed in with your own account.
+  See [Connect Claude Code](#connect-claude-code).
 
-Launcher tự tải Node.js nếu máy chưa có phiên bản phù hợp, không cần quyền
-Administrator hoặc `sudo`. Trên Ubuntu, nếu máy thiếu Python 3 thì việc cài
-Python qua trình quản lý gói có thể cần `sudo`.
+The launcher downloads Node.js if a suitable version is not available. This does
+not require Administrator access or `sudo`. Installing Python 3 through Ubuntu's
+package manager may require `sudo` if Python is missing.
 
-Windows và Ubuntu có file khởi động khác nhau; các bước cài môi trường được tự động hóa.
-Launcher Ubuntu đã được kiểm thử. Launcher Windows chưa được kiểm thử trực tiếp
-trên máy Windows. Hiện chưa có launcher cho macOS.
+Windows and Ubuntu use different launcher files, but both automate environment
+setup. The Ubuntu launcher has been tested. The Windows launcher has not yet been
+tested directly on Windows. There is currently no macOS launcher.
 
-## Cài và mở trên Windows
+## Install and launch on Windows
 
-### Bước 1: Tải ứng dụng
+### Step 1: Download the application
 
-Chọn một trong hai cách:
+Choose either method:
 
-**Cách A — tải ZIP, không cần Git:**
+**Option A — download a ZIP, without Git:**
 
-1. Mở [repo Agent Office](https://github.com/Searn-1007/Agent-office).
-2. Bấm **Code → Download ZIP**.
-3. Giải nén vào một thư mục bạn muốn giữ lâu dài, ví dụ `C:\Apps\Agent-office`.
-4. Mở thư mục đã giải nén, nơi có các file `launch.cmd`, `launch.ps1` và `package.json`.
+1. Open the [Agent Office repository](https://github.com/Searn-1007/Agent-office).
+2. Click **Code → Download ZIP**.
+3. Extract the archive into a folder you intend to keep, such as `C:\Apps\Agent-office`.
+4. Open the extracted folder containing `launch.cmd`, `launch.ps1`, and `package.json`.
 
-**Cách B — dùng Git nếu máy đã có Git:**
+**Option B — clone with Git, if Git is already installed:**
 
-Mở PowerShell hoặc Terminal ở thư mục muốn lưu ứng dụng, rồi chạy:
+Open PowerShell or Terminal in the folder where you want to store the application:
 
 ```powershell
 git clone https://github.com/Searn-1007/Agent-office.git
 cd Agent-office
 ```
 
-### Bước 2: Chạy lần đầu
+### Step 2: Run the launcher once
 
-1. Bấm đúp file **`launch.cmd`** trong thư mục ứng dụng.
-2. Một cửa sổ dòng lệnh hiện ra để chuẩn bị ứng dụng. Giữ cửa sổ này mở và đợi hoàn tất.
-3. Chương trình tự tải Node.js nếu cần, cài thư viện và build giao diện.
-4. Văn phòng mở trong một cửa sổ app riêng nếu tìm thấy Edge hoặc Chrome;
-   nếu không, chương trình mở bằng trình duyệt mặc định.
-5. Sau khi mở thành công, chương trình tự tạo shortcut **Agent Office** ở
-   **Desktop** và **Start Menu**.
+1. Double-click **`launch.cmd`** inside the application folder.
+2. A command window opens to prepare the app. Keep it open and wait for setup to finish.
+3. The launcher downloads Node.js if needed, installs dependencies, and builds the interface.
+4. The office opens in a separate app window when Edge or Chrome is found.
+   Otherwise, it opens in your default browser.
+5. After the app opens successfully, the launcher automatically creates **Agent Office**
+   shortcuts on your **Desktop** and in the **Start Menu**.
 
-Bạn không cần chạy riêng `npm install`, `npm run build` hoặc tự tạo shortcut.
-Nếu có lỗi, cửa sổ dòng lệnh sẽ giữ lại thông báo để bạn đọc.
+You do not need to run `npm install`, run `npm run build`, or create shortcuts manually.
+If setup fails, the command window keeps the error visible so you can read it.
 
-### Bước 3: Những lần dùng tiếp theo
+### Step 3: Open the app next time
 
-Bấm đúp **Agent Office** trên Desktop, hoặc tìm **Agent Office** trong Start Menu.
-Không cần mở thư mục mã nguồn hay gõ lệnh mỗi lần dùng.
+Double-click **Agent Office** on the Desktop, or search for **Agent Office** in the
+Start Menu. You do not need to open the source folder or enter commands each time.
 
-Windows hiện kiểm tra thư viện và build giao diện mỗi lần mở, nên có thể cần
-đợi một lúc trước khi cửa sổ app xuất hiện.
+The Windows launcher currently checks dependencies and builds the interface on
+each launch, so there may be a short delay before the app window appears.
 
-## Cài và mở trên Ubuntu
+## Install and launch on Ubuntu
 
-### Bước 1: Tải ứng dụng
+### Step 1: Download the application
 
-Nếu máy đã có Git, mở Terminal tại thư mục muốn lưu ứng dụng và chạy:
+If Git is installed, open Terminal in the folder where you want to store the app:
 
 ```bash
 git clone https://github.com/Searn-1007/Agent-office.git
 cd Agent-office
 ```
 
-Hoặc tải **Code → Download ZIP** từ [repo](https://github.com/Searn-1007/Agent-office),
-giải nén, rồi mở Terminal trong thư mục chứa `launch.sh`.
-Có thể bấm chuột phải trong thư mục và chọn **Open in Terminal**.
+Alternatively, select **Code → Download ZIP** in the
+[repository](https://github.com/Searn-1007/Agent-office), extract the archive, and
+open Terminal in the folder containing `launch.sh`. You can usually right-click
+inside the folder and select **Open in Terminal**.
 
-### Bước 2: Chạy lần đầu
+### Step 2: Run the launcher once
 
-Trong Terminal đang ở thư mục ứng dụng, chạy:
+From Terminal in the application folder, run:
 
 ```bash
 bash launch.sh
 ```
 
-Chương trình sẽ:
+The launcher will:
 
-1. Tìm Node.js phù hợp hoặc tự tải một bản riêng cho Agent Office.
-2. Cài thư viện và build giao diện.
-3. Tự tạo shortcut **Agent Office** trong menu ứng dụng và trên Desktop
-   nếu máy có thư mục Desktop được cấu hình.
-4. Khởi động server và mở cửa sổ văn phòng.
+1. Find a suitable Node.js installation or download a private runtime for Agent Office.
+2. Install dependencies and build the interface.
+3. Automatically create **Agent Office** shortcuts in the application menu and
+   on the Desktop, if a Desktop directory is configured.
+4. Start the server and open the office window.
 
-Chờ đến khi văn phòng xuất hiện. Lần đầu cần tải dữ liệu nên có thể mất lâu hơn.
-Nếu đã clone bằng Git, bạn cũng có thể chạy `./launch.sh` trực tiếp.
+Wait for the office to appear. The first launch downloads files and may take longer.
+If you cloned with Git, you can also run `./launch.sh` directly.
 
-### Bước 3: Những lần dùng tiếp theo
+### Step 3: Open the app next time
 
-- Bấm phím **Super** (phím Windows), tìm **Agent Office** rồi mở; hoặc
-- Bấm đúp shortcut **Agent Office** trên Desktop.
+- Press **Super** (the Windows key), search for **Agent Office**, and open it; or
+- Double-click the **Agent Office** shortcut on the Desktop.
 
-Nếu Ubuntu chưa cho phép mở shortcut Desktop, bấm chuột phải vào biểu tượng và
-chọn **Allow Launching / Cho phép khởi chạy**. Shortcut đã được chương trình tạo;
-bước này chỉ cho phép desktop sử dụng nó.
+If Ubuntu blocks the Desktop shortcut, right-click it and select **Allow Launching**.
+The launcher has already created the shortcut; this step allows your desktop to use it.
 
-Ubuntu dùng lại thư viện và bản build khi chưa có thay đổi. Nếu thiếu Chrome hoặc
-Chromium, ứng dụng sẽ mở bằng trình duyệt mặc định. Shortcut có thể mở thêm
-Terminal để hiển thị tiến trình hoặc lỗi.
+Ubuntu reuses dependencies and the build when nothing has changed. If Chrome or
+Chromium is unavailable, the app opens in your default browser. The shortcut may
+also open a Terminal window to display progress or errors.
 
-## Kết nối Claude Code
+## Connect Claude Code
 
-**Mở được văn phòng và chạy được agent là hai bước riêng.** Giao diện có thể mở
-khi chưa cài Claude Code, nhưng muốn agent làm việc thì máy cần Claude Code đã đăng nhập.
+The office interface can open without Claude Code. To have agents perform work,
+Claude Code must be installed and signed in on your machine.
 
-1. Cài Claude Code theo [hướng dẫn chính thức](https://code.claude.com/docs/en/setup).
-2. Mở một Terminal hoặc PowerShell mới sau khi cài.
-3. Chạy:
+1. Install Claude Code using the [official setup guide](https://code.claude.com/docs/en/setup).
+2. Open a new Terminal or PowerShell window after installation.
+3. Run:
 
    ```text
    claude
    ```
 
-4. Hoàn tất đăng nhập theo hướng dẫn của Claude Code bằng tài khoản của bạn.
-5. Kiểm tra trạng thái:
+4. Follow Claude Code's sign-in instructions using your own account.
+5. Check your authentication status:
 
    ```text
    claude auth status
    ```
 
-6. Nếu Agent Office đang chạy từ trước khi cài Claude Code, dừng server theo
-   phần bên dưới, rồi mở lại bằng shortcut để nhận môi trường mới.
+6. If Agent Office was already running before you installed Claude Code, stop its
+   server as described below, then reopen the shortcut so it picks up the new environment.
 
-Launcher không tự cài Claude Code hoặc đăng nhập thay bạn. Mỗi người dùng tài
-khoản và quyền truy cập Claude của riêng mình.
+The launcher does not install Claude Code or sign in for you. Each user needs their
+own Claude account and access.
 
-## Bắt đầu làm việc trong văn phòng
+## Start working in the office
 
-1. Chọn một mẫu văn phòng, chỉnh tên và các phòng nếu muốn.
-2. Bấm **Vào văn phòng →**.
-3. Bấm **+ Thêm agent**.
-4. Chọn vai trò/phòng, đặt tên và chọn thư mục dự án mà agent sẽ làm việc.
-   Bạn có thể dán đường dẫn khác rồi bấm **Lưu thư mục**.
-5. Bấm **Tuyển agent** để khởi động Claude Code.
-6. Mở terminal của agent và nhập yêu cầu. Nếu Claude Code hỏi xác nhận thư mục
-   hoặc quyền thao tác, xem nội dung rồi trả lời trong terminal đó.
+The current interface uses Vietnamese labels. Their English meanings are included
+below so you can follow the steps:
 
-## Shortcut, thư mục cài đặt và việc đóng app
+1. Choose an office template and optionally customize its name and rooms.
+2. Click **Vào văn phòng →** (Enter office).
+3. Click **+ Thêm agent** (Add agent).
+4. Choose a role/room, enter a name, and select the project folder the agent should
+   work in. To add another folder, paste its path and click **Lưu thư mục** (Save folder).
+5. Click **Tuyển agent** (Create agent) to start Claude Code.
+6. Open the agent's terminal and enter your task. If Claude Code asks you to trust
+   a folder or approve an action, review the request and respond in that terminal.
 
-- **Shortcut được tạo tự động khi chạy launcher lần đầu thành công.** Chỉ clone
-  hoặc giải nén repo chưa tạo shortcut, vì chưa có chương trình nào được chạy.
-- Giữ nguyên thư mục ứng dụng sau khi cài. Shortcut trỏ tới thư mục này, vì vậy
-  không xóa hoặc di chuyển nó nếu còn muốn dùng shortcut.
-- Nếu đã di chuyển thư mục, chạy lại `launch.cmd` hoặc `bash launch.sh` tại vị trí
-  mới để cập nhật shortcut. Dừng server cũ trước khi chuyển sang bản ở vị trí mới.
-- Đóng cửa sổ văn phòng chỉ đóng giao diện. Server nền và các agent đang chạy
-  có thể tiếp tục hoạt động. Mở lại shortcut để vào lại văn phòng đang chạy.
-- Tắt server sẽ đóng toàn bộ agent do server đó khởi động. Khi khởi động lại
-  server, các tiến trình agent cũ không được tự khôi phục.
+## Shortcuts, installation folders, and closing the app
 
-### Dừng server trên Ubuntu
+- **Shortcuts are created automatically during the first successful launcher run.**
+  Cloning or extracting the repository alone does not create them, because no
+  setup code has run yet.
+- Keep the application folder in place. Shortcuts point to that folder, so deleting
+  or moving it will break them.
+- If you move the folder, rerun `launch.cmd` or `bash launch.sh` from the new location
+  to update the shortcuts. Stop the old server before switching to the new location.
+- Closing the office window closes the interface. The background server and its
+  agents may keep running. Open the shortcut again to return to the running office.
+- Stopping the server closes every agent it started. Restarting the server does not
+  automatically restore those agent processes.
 
-Chỉ chạy lệnh này khi muốn dừng văn phòng và các agent của nó:
+### Stop the server on Ubuntu
+
+Run this only when you want to stop the office and its agents:
 
 ```bash
 kill -TERM "$(cat ~/.agent-office/server.pid)"
 ```
 
-### Dừng server trên Windows
+### Stop the server on Windows
 
-Mở **Task Manager → Details**, bật cột **Command line** và tìm tiến trình
-`node.exe` có dòng lệnh chứa đường dẫn tới `Agent-office\server\index.mjs`
-trong thư mục đã cài. Chọn đúng tiến trình đó và bấm **End task**.
+Open **Task Manager → Details**, enable the **Command line** column, and find the
+`node.exe` process whose command line points to `Agent-office\server\index.mjs`
+in your installation folder. Select that process and click **End task**.
 
-## Cập nhật ứng dụng
+## Update the application
 
-Nếu cài bằng Git, dừng server khi đã hoàn tất công việc của các agent, mở Terminal
-hoặc PowerShell trong thư mục ứng dụng và chạy:
+If you installed with Git, finish any active agent work and stop the server.
+Open Terminal or PowerShell in the application folder and run:
 
 ```text
 git pull
 ```
 
-Sau đó mở lại shortcut hoặc chạy lại launcher. Nó tự cập nhật thư viện và build
-khi cần; bạn không cần tự chạy các lệnh npm.
+Then open the shortcut or rerun the launcher. It handles dependency updates and
+builds for you; you do not need to run npm commands yourself.
 
-Nếu tải ZIP, dừng server, tải bản ZIP mới và giải nén vào thư mục mới. Chạy
-launcher trong thư mục mới để cập nhật shortcut. Cấu hình cá nhân vẫn nằm ngoài
-repo nên không bị thay thế khi đổi thư mục mã nguồn.
+If you downloaded a ZIP, stop the server, download the new ZIP, and extract it into
+a new folder. Run the launcher there to update the shortcuts. Personal settings
+are stored outside the repository and are preserved when you change source folders.
 
-## Xử lý lỗi thường gặp
+## Troubleshooting
 
-| Hiện tượng | Cách xử lý |
+| Problem | What to do |
 | --- | --- |
-| Chưa thấy shortcut sau khi tải repo | Chạy `launch.cmd` trên Windows hoặc `bash launch.sh` trên Ubuntu một lần và đợi hoàn tất. |
-| Cài thư viện hoặc tải Node.js thất bại | Kiểm tra kết nối Internet, đọc lỗi trong cửa sổ dòng lệnh rồi chạy lại launcher. |
-| Ubuntu báo thiếu `python3` | Cài bằng `sudo apt install python3`, rồi chạy lại `bash launch.sh`. |
-| Ubuntu báo `Permission denied` khi chạy `./launch.sh` | Dùng `bash launch.sh`, hoặc chạy `chmod +x launch.sh` rồi thử lại. |
-| Shortcut Desktop Ubuntu chưa mở được | Chuột phải → **Allow Launching**; hoặc mở từ menu ứng dụng. |
-| Giao diện mở trong tab trình duyệt | Launcher chưa tìm thấy trình duyệt hỗ trợ cửa sổ app; dùng Chrome/Chromium trên Ubuntu hoặc Edge/Chrome trên Windows. |
-| Báo chưa tìm thấy Claude Code | Cài Claude Code, kiểm tra `claude auth status`, dừng server cũ rồi mở lại Agent Office. |
-| Báo cổng `3300` bị ứng dụng khác sử dụng | Dừng ứng dụng đang chiếm cổng rồi chạy lại launcher. |
-| Giao diện báo “Mất kết nối…” | Mở lại bằng shortcut để dùng đúng URL có token và khởi động server nếu cần; kiểm tra log nếu vẫn lỗi. |
-| Shortcut không chạy sau khi di chuyển thư mục | Chạy lại launcher từ vị trí mới để tạo lại shortcut. |
+| No shortcut after downloading the repository | Run `launch.cmd` on Windows or `bash launch.sh` on Ubuntu once and wait for setup to finish. |
+| Node.js download or dependency installation fails | Check your internet connection, read the error in the command window, and rerun the launcher. |
+| Ubuntu reports that `python3` is missing | Run `sudo apt install python3`, then retry `bash launch.sh`. |
+| Ubuntu reports `Permission denied` for `./launch.sh` | Use `bash launch.sh`, or run `chmod +x launch.sh` and try again. |
+| The Ubuntu Desktop shortcut will not open | Right-click it and select **Allow Launching**, or open the app from the application menu. |
+| The office opens in a browser tab | The launcher did not find a browser supporting app windows. Use Chrome/Chromium on Ubuntu or Edge/Chrome on Windows. |
+| Claude Code cannot be found | Install Claude Code, check `claude auth status`, stop the old server, and reopen Agent Office. |
+| Port `3300` is occupied by another application | Stop the application using that port, then rerun the launcher. |
+| The interface displays “Mất kết nối…” (Disconnected) | Reopen the shortcut to use the correct token-bearing URL and start the server if needed. Check the logs if it still fails. |
+| A shortcut stops working after you move the application | Rerun the launcher from the new folder to recreate the shortcuts. |
 
-### Xem log và cấu hình
+### Logs and settings
 
-| Dữ liệu | Ubuntu | Windows |
+| Data | Ubuntu | Windows |
 | --- | --- | --- |
-| Thư mục cấu hình, token và runtime riêng | `~/.agent-office/` | `%USERPROFILE%\.agent-office\` |
-| Log server | `~/.agent-office/server.log` | `%USERPROFILE%\.agent-office\server.log` |
-| Log lỗi server riêng | Chung trong `server.log` | `%USERPROFILE%\.agent-office\server-error.log` |
-| Log cửa sổ app | `~/.agent-office/app.log` | Không có log app riêng |
-| URL mở văn phòng có token | `~/.agent-office/url.txt` | `%USERPROFILE%\.agent-office\url.txt` |
+| Settings, tokens, and private runtime | `~/.agent-office/` | `%USERPROFILE%\.agent-office\` |
+| Server log | `~/.agent-office/server.log` | `%USERPROFILE%\.agent-office\server.log` |
+| Separate server error log | Included in `server.log` | `%USERPROFILE%\.agent-office\server-error.log` |
+| App window log | `~/.agent-office/app.log` | No separate app log |
+| Launch URL containing the access token | `~/.agent-office/url.txt` | `%USERPROFILE%\.agent-office\url.txt` |
 
-Trên Windows có thể dán `%USERPROFILE%\.agent-office` vào thanh địa chỉ File Explorer
-để mở thư mục dữ liệu. Trên Ubuntu, `~` là thư mục home của người dùng.
+On Windows, paste `%USERPROFILE%\.agent-office` into the File Explorer address bar
+to open the data folder. On Ubuntu, `~` refers to your home directory.
 
-Cấu hình và token ở ngoài repo. Không đưa thư mục này lên GitHub hoặc chia sẻ
-URL chứa token. Khi dùng bình thường, cứ mở bằng shortcut để lấy đúng URL.
+Settings and tokens stay outside the repository. Do not commit that data folder
+or share the token-bearing launch URL. For normal use, open the shortcut to get
+the correct URL automatically.
 
-## Dành cho người phát triển
+## Development
 
-Phần này dành cho việc sửa mã nguồn; người dùng bình thường chỉ cần launcher.
-Nếu chạy thủ công, cần Node.js 22.12+ và npm trong PATH.
+These instructions are for editing the source. Regular users only need the launcher.
+For manual development, install Node.js 22.12+ and npm on your PATH.
 
 ```bash
 npm ci
-npm run build   # kiểm tra TypeScript + build giao diện vào web/dist
-npm test        # kiểm tra server
-npm start       # chạy server và phục vụ bản build
+npm run build   # TypeScript checks and interface build into web/dist
+npm test        # Server regression tests
+npm start       # Start the server and serve the built interface
 ```
 
-`npm run dev` mở Vite để phát triển giao diện; không tự chạy các agent.
-Trên Windows PowerShell, dùng `npm.cmd` nếu chính sách chặn `npm.ps1`.
+`npm run dev` starts Vite for interface development; it does not start agents.
+In Windows PowerShell, use `npm.cmd` if execution policy blocks `npm.ps1`.
 
-Các tùy chọn launcher Ubuntu:
+Ubuntu launcher options:
 
 ```bash
-bash launch.sh --setup-only  # chỉ chuẩn bị môi trường, build và shortcut
-bash launch.sh --no-open     # khởi động server, không mở cửa sổ app
+bash launch.sh --setup-only  # Prepare the runtime, dependencies, build, and shortcuts
+bash launch.sh --no-open     # Start the server without opening an app window
 ```
 
-Mã giao diện thay đổi cần build lại. Mã server thay đổi cần dừng server rồi mở
-lại; việc này cũng đóng các agent đang chạy.
+Interface changes require a rebuild. Server changes require stopping and restarting
+the server, which also closes any running agents.
 
-### Cấu trúc chính
+### Project structure
 
-- `launch.cmd`, `launch.ps1`: chuẩn bị môi trường và mở app trên Windows.
-- `launch.sh`, `scripts/launch.py`: chuẩn bị môi trường và mở app trên Ubuntu/Linux.
-- `server/agents.mjs`: chạy mỗi Claude Code agent trong một PTY riêng và nhận diện
-  các màn hình chờ xác nhận bằng terminal headless.
-- `server/transcript.mjs`: theo dõi transcript Claude để cập nhật hoạt động,
-  kết thúc lượt và sub-agent.
-- `server/roles.mjs`: lời nhắc theo vai trò và ánh xạ sub-agent vào phòng.
-- `web/src/building.ts`: bố cục và hình học tòa nhà.
-- `web/src/office.ts`: camera, đường đi và nhân vật.
-- `web/src/ui.ts`, `web/src/terminal.ts`: giao diện điều khiển và terminal.
+- `launch.cmd`, `launch.ps1`: environment setup and app launch on Windows.
+- `launch.sh`, `scripts/launch.py`: environment setup and app launch on Ubuntu/Linux.
+- `server/agents.mjs`: starts each Claude Code agent in its own PTY and detects
+  approval prompts using a headless terminal.
+- `server/transcript.mjs`: follows Claude transcripts for activity, turn completion,
+  and sub-agent events.
+- `server/roles.mjs`: role prompts and sub-agent room assignments.
+- `web/src/building.ts`: office layout and building geometry.
+- `web/src/office.ts`: camera, navigation, and characters.
+- `web/src/ui.ts`, `web/src/terminal.ts`: controls and terminal interface.
