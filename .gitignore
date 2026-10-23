@@ -7,3 +7,6 @@ web/dist/
 .agent-office/
 coverage/
 *.tsbuildinfo
+
+# Local handoff notes
+/HANDOFF.md
