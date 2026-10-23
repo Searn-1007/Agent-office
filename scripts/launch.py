@@ -62,6 +62,19 @@ def node_runtime():
     return target / 'bin/node'
 
 
+def launch_environment(node):
+    env = os.environ.copy()
+    # Desktop shortcuts do not load shell startup files such as ~/.bashrc.
+    paths = [str(node.parent), str(Path.home() / '.local/bin')]
+    paths.extend(env.get('PATH', '').split(os.pathsep))
+    paths.append(str(Path.home() / '.npm-global/bin'))
+    prefix = env.get('NPM_CONFIG_PREFIX') or env.get('npm_config_prefix')
+    if prefix:
+        paths.append(str(Path(prefix).expanduser() / 'bin'))
+    env['PATH'] = os.pathsep.join(dict.fromkeys(path for path in paths if path))
+    return env
+
+
 def fingerprint(paths):
     digest = hashlib.sha256()
     for path in sorted(paths):
@@ -156,13 +169,12 @@ def main():
     with (DATA / 'launch.lock').open('w') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         node = node_runtime()
-        env = os.environ.copy()
-        env['PATH'] = str(node.parent) + ':' + str(Path.home() / '.local/bin') + ':' + env.get('PATH', '')
+        env = launch_environment(node)
         prepare(node, env)
         desktop_entry()
         claude = shutil.which('claude', path=env['PATH'])
         if not claude:
-            print('Claude Code is not installed. The UI can open; install Claude Code and sign in before creating agents.', flush=True)
+            print('Claude Code was not found in the launcher PATH. If already installed, add its bin directory to PATH; otherwise install Claude Code and sign in before creating agents.', flush=True)
         if args.setup_only:
             print('Setup complete. Run ./launch.sh to open Agent Office.', flush=True)
             return

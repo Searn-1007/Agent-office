@@ -140,6 +140,12 @@ Claude Code must be installed and signed in on your machine.
 The launcher does not install Claude Code or sign in for you. Each user needs their
 own Claude account and access.
 
+On Linux, desktop shortcuts may have a different `PATH` from your terminal. The
+launcher also searches `~/.local/bin`, `~/.npm-global/bin`, and the `bin` directory
+of `NPM_CONFIG_PREFIX` (or `npm_config_prefix`) when that variable is set. For a
+custom installation elsewhere, add its `bin` directory to the desktop session
+`PATH`. Restart an already running Agent Office server after changing its environment.
+
 ## Start working in the office
 
 The current interface uses Vietnamese labels. Their English meanings are included
