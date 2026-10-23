@@ -1,0 +1,25 @@
+{
+  "name": "agent-office",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "3D office where real Claude Code agents work in role-based rooms",
+  "scripts": {
+    "dev": "vite --config web/vite.config.ts",
+    "build": "tsc -p web/tsconfig.json --noEmit && vite build --config web/vite.config.ts",
+    "start": "node server/index.mjs"
+  },
+  "dependencies": {
+    "@lydell/node-pty": "^1.1.0",
+    "@xterm/headless": "^5.5.0",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/three": "^0.180.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/xterm": "^5.5.0",
+    "three": "^0.180.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  }
+}
