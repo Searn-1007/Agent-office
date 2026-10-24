@@ -107,6 +107,9 @@ export class AgentManager {
       this.broadcast({ type: 'term', id, data });
     });
     proc.onExit(() => {
+      // close() kills the PTY and removes the agent first; announcing the exit
+      // afterwards would bring a ghost back into every client.
+      if (this.agents.get(id) !== a) return;
       a.exited = true;
       a.status = 'exited';
       a.activity = 'Đã thoát';
@@ -198,7 +201,11 @@ export class AgentManager {
 
   close(id) {
     const a = this.agents.get(id);
-    if (!a) return;
+    if (!a) {
+      // Unknown here (e.g. a ghost a client still shows): let clients drop it.
+      this.broadcast({ type: 'agentRemoved', id });
+      return;
+    }
     if (!a.exited) {
       try {
         a.proc.kill();
