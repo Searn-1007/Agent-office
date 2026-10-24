@@ -9,6 +9,8 @@ import path from 'node:path';
 const PROJECTS_DIR = path.join(os.homedir(), '.claude', 'projects');
 const POLL_MS = 600;
 const SUBAGENT_TOOLS = new Set(['Agent', 'Task']);
+/** A background sub-agent's finish arrives later as a <task-notification>. */
+const NOTIFICATION_RE = /<task-notification>[\s\S]*?<tool-use-id>([^<]+)<\/tool-use-id>/g;
 
 function baseName(p) {
   return typeof p === 'string' ? path.basename(p) : '';
@@ -61,6 +63,8 @@ export class TranscriptWatcher {
     this.partial = '';
     this.openTools = new Map();
     this.subagents = new Set();
+    /** Sub-agents still working after their tool call returned. */
+    this.background = new Set();
     this.timer = setInterval(() => this.poll(), POLL_MS);
   }
 
@@ -121,14 +125,30 @@ export class TranscriptWatcher {
     // tool_result pair already tracks when each one starts and finishes.
     if (rec.isSidechain) return;
 
+    // A notification that arrives while the lead is busy is queued, and may
+    // only ever be logged here rather than as a user record.
+    if (rec.type === 'queue-operation' && rec.operation === 'enqueue') {
+      this.handleNotifications(rec.content);
+      return;
+    }
+    if (rec.type === 'attachment' && rec.attachment?.type === 'queued_command') {
+      this.handleNotifications(rec.attachment.prompt);
+      return;
+    }
+
     if (rec.type === 'system' && rec.subtype === 'turn_duration') {
       this.openTools.clear();
+      // Foreground sub-agents cannot outlive the turn; background ones can.
+      for (const id of this.subagents) {
+        if (!this.background.has(id)) this.endSubagent(id);
+      }
       this.onEvent({ kind: 'turnEnd' });
       return;
     }
 
     const content = rec.message?.content;
     if (rec.type === 'user') {
+      this.handleNotifications(content);
       if (typeof content === 'string') {
         this.onEvent({ kind: 'thinking' });
         return;
@@ -138,9 +158,9 @@ export class TranscriptWatcher {
       for (const item of content) {
         if (item.type === 'tool_result') {
           this.openTools.delete(item.tool_use_id);
-          if (this.subagents.delete(item.tool_use_id)) {
-            this.onEvent({ kind: 'subagentEnd', id: item.tool_use_id });
-          }
+          if (!this.subagents.has(item.tool_use_id)) continue;
+          if (rec.toolUseResult?.isAsync) this.background.add(item.tool_use_id);
+          else this.endSubagent(item.tool_use_id);
         } else if (item.type === 'text') {
           sawPrompt = true;
         }
@@ -151,28 +171,46 @@ export class TranscriptWatcher {
     }
 
     if (rec.type === 'assistant' && Array.isArray(content)) {
-      let usedTool = false;
-      for (const item of content) {
-        if (item.type !== 'tool_use') continue;
-        usedTool = true;
-        const label = describeTool(item.name, item.input);
-        this.openTools.set(item.id, label);
-        if (SUBAGENT_TOOLS.has(item.name)) {
-          this.subagents.add(item.id);
-          this.onEvent({
-            kind: 'subagentStart',
-            id: item.id,
-            label: item.input?.description ?? 'sub-agent',
-            room: this.classify(item.input?.description ?? '', item.input?.subagent_type ?? ''),
-          });
-        }
-        this.onEvent({ kind: 'tool', label });
+      this.handleAssistant(rec, content);
+    }
+  }
+
+  endSubagent(id) {
+    this.background.delete(id);
+    if (this.subagents.delete(id)) this.onEvent({ kind: 'subagentEnd', id });
+  }
+
+  handleNotifications(content) {
+    const text = typeof content === 'string'
+      ? content
+      : Array.isArray(content)
+        ? content.filter((i) => i.type === 'text').map((i) => i.text).join('\n')
+        : '';
+    for (const m of text.matchAll(NOTIFICATION_RE)) this.endSubagent(m[1].trim());
+  }
+
+  handleAssistant(rec, content) {
+    let usedTool = false;
+    for (const item of content) {
+      if (item.type !== 'tool_use') continue;
+      usedTool = true;
+      const label = describeTool(item.name, item.input);
+      this.openTools.set(item.id, label);
+      if (SUBAGENT_TOOLS.has(item.name)) {
+        this.subagents.add(item.id);
+        this.onEvent({
+          kind: 'subagentStart',
+          id: item.id,
+          label: item.input?.description ?? 'sub-agent',
+          room: this.classify(item.input?.description ?? '', item.input?.subagent_type ?? ''),
+        });
       }
-      if (!usedTool && rec.message?.stop_reason === 'end_turn') {
-        this.onEvent({ kind: 'turnEnd' });
-      } else if (!usedTool) {
-        this.onEvent({ kind: 'thinking' });
-      }
+      this.onEvent({ kind: 'tool', label });
+    }
+    if (!usedTool && rec.message?.stop_reason === 'end_turn') {
+      this.onEvent({ kind: 'turnEnd' });
+    } else if (!usedTool) {
+      this.onEvent({ kind: 'thinking' });
     }
   }
 }

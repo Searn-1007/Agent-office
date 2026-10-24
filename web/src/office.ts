@@ -452,8 +452,10 @@ export class Office {
   }
 
   private applyVisibility(actor: Actor): void {
+    // Sub-agents stay visible on a hidden upper storey: the lead's room is
+    // downstairs, so following the lead would otherwise hide all its helpers.
     const upper = actor.figure.position.y > levelY(1) - 0.5;
-    const visible = !upper || this.levels[1].visible;
+    const visible = !upper || this.levels[1].visible || actor.key.startsWith('s');
     actor.figure.root.visible = visible;
     actor.figure.label.visible = visible;
   }

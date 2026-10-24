@@ -144,7 +144,7 @@ export class AgentManager {
       case 'turnEnd':
         a.status = 'done';
         a.activity = 'Xong, chờ bạn';
-        a.subagents.clear();
+        // Background sub-agents keep working; the watcher ends them.
         break;
       case 'subagentStart':
         a.subagents.set(e.id, { id: e.id, label: e.label, roomId: e.room });
