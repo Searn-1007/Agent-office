@@ -4,7 +4,7 @@
 import type { ViewId } from './office';
 import type { RoomRole, Setup, Theme } from './setup';
 import { cloneSetup, makeRoomId, MAX_ROOMS, PALETTE, TEMPLATES, THEMES } from './setup';
-import type { AgentInfo, DirInfo } from './types';
+import type { AgentInfo, DirInfo, SubagentInfo } from './types';
 import { STATUS_META, UNKNOWN_ROOM_COLOR } from './types';
 
 export interface UiHandlers {
@@ -224,7 +224,7 @@ export class Ui {
 
     this.rosterList.replaceChildren(
       ...(this.agents.length
-        ? this.agents.map((a) => this.agentRow(a))
+        ? this.agents.flatMap((a) => [this.agentRow(a), ...a.subagents.map((sub) => this.subagentRow(a, sub))])
         : [h('p', { class: 'muted' }, 'Chưa có ai. Bấm "+ Thêm agent" để tuyển nhân viên đầu tiên.')]),
     );
 
@@ -258,6 +258,21 @@ export class Ui {
     row.style.setProperty('--role', this.roomOf(a.roomId)?.color ?? UNKNOWN_ROOM_COLOR);
     row.style.setProperty('--status', st.css);
     row.addEventListener('click', () => this.handlers.onOpenAgent(a.id));
+    return row;
+  }
+
+  // Sub-agents have no terminal of their own; clicking opens the parent's.
+  private subagentRow(parent: AgentInfo, sub: SubagentInfo): HTMLElement {
+    const row = h(
+      'button',
+      { class: 'agent-row sub' },
+      this.roleChip(sub.roomId),
+      h('span', { class: 'agent-main' }, h('b', {}, sub.label), h('small', {}, `Sub-agent của ${parent.name}`)),
+      h('span', { class: 'status-dot', title: 'Đang làm việc' }),
+    );
+    row.style.setProperty('--role', this.roomOf(sub.roomId)?.color ?? UNKNOWN_ROOM_COLOR);
+    row.style.setProperty('--status', STATUS_META.working.css);
+    row.addEventListener('click', () => this.handlers.onOpenAgent(parent.id));
     return row;
   }
 

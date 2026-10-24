@@ -310,6 +310,12 @@ body.drawer-open .side {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--line);
 }
+.agent-row.sub {
+  margin-left: 18px;
+  padding: 7px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border-style: dashed;
+}
 .agent-row:hover {
   border-color: var(--role);
 }
